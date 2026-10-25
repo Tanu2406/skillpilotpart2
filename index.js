@@ -6,4 +6,15 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.listen(3000);
+if (require.main === module) {
+  const server = app.listen(3000, () => {
+    console.log("Server listening at http://localhost:3000");
+  });
+
+  server.on("error", (error) => {
+    console.error("Unable to start server on port 3000:", error.message);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = app;
